@@ -476,9 +476,35 @@
         let editingCoinId = null;
 
         // Инициализация
-        function init() {
+        async function init() {
+            // Попытка загрузить монеты из БД (если передано ботом)
+            await loadCoinsFromDatabase();
             renderCoins();
             updateStats();
+        }
+        
+        // Загрузить монеты из БД через бота
+        async function loadCoinsFromDatabase() {
+            // Попытка получить данные от Telegram WebApp
+            const initData = tg.initDataUnsafe;
+            
+            // Если данные не переданы, используем локальный список
+            if (!initData || !initData.start_param) {
+                console.log('Using local coins registry');
+                return;
+            }
+            
+            try {
+                // Декодировать данные от бота
+                const data = JSON.parse(atob(initData.start_param));
+                
+                if (data && data.coins && Array.isArray(data.coins)) {
+                    coinsRegistry = data.coins;
+                    console.log(`Loaded ${coinsRegistry.length} coins from database`);
+                }
+            } catch (e) {
+                console.error('Error loading coins from database:', e);
+            }
         }
 
         // Отрисовка монет
