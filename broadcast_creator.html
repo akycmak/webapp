@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создание рассылки</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            padding: 16px;
+            padding-bottom: 80px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--tg-theme-hint-color, #999);
+        }
+
+        .header-icon {
+            font-size: 32px;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .section {
+            background: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--tg-theme-hint-color, #999);
+            text-transform: uppercase;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        textarea, input[type="text"], input[type="url"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--tg-theme-hint-color, #ccc);
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+            background: var(--tg-theme-bg-color, #fff);
+            color: var(--tg-theme-text-color, #000);
+            resize: vertical;
+        }
+
+        textarea {
+            min-height: 120px;
+        }
+
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .upload-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            background: var(--tg-theme-button-color, #3390ec);
+            color: var(--tg-theme-button-text-color, #fff);
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .upload-btn:active {
+            opacity: 0.8;
+        }
+
+        .file-preview {
+            display: none;
+            padding: 12px;
+            background: var(--tg-theme-bg-color, #fff);
+            border: 1px solid var(--tg-theme-hint-color, #ccc);
+            border-radius: 8px;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .file-preview.active {
+            display: flex;
+        }
+
+        .file-preview img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .file-size {
+            font-size: 12px;
+            color: var(--tg-theme-hint-color, #999);
+        }
+
+        .remove-btn {
+            padding: 8px;
+            background: #ff3b30;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .button-item {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+        }
+
+        .button-item input {
+            flex: 1;
+        }
+
+        .add-button-btn {
+            width: 100%;
+            padding: 10px;
+            background: transparent;
+            color: var(--tg-theme-button-color, #3390ec);
+            border: 2px dashed var(--tg-theme-button-color, #3390ec);
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .preview-section {
+            background: var(--tg-theme-bg-color, #fff);
+            border: 2px solid var(--tg-theme-button-color, #3390ec);
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .preview-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--tg-theme-button-color, #3390ec);
+        }
+
+        .preview-message {
+            background: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 12px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .preview-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .preview-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .preview-button {
+            padding: 10px;
+            background: var(--tg-theme-button-color, #3390ec);
+            color: var(--tg-theme-button-text-color, #fff);
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .char-counter {
+            font-size: 12px;
+            color: var(--tg-theme-hint-color, #999);
+            text-align: right;
+            margin-top: 4px;
+        }
+
+        .hint {
+            font-size: 12px;
+            color: var(--tg-theme-hint-color, #999);
+            margin-top: 4px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .audience-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .audience-option {
+            padding: 12px;
+            background: var(--tg-theme-bg-color, #fff);
+            border: 2px solid var(--tg-theme-hint-color, #ccc);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .audience-option.selected {
+            border-color: var(--tg-theme-button-color, #3390ec);
+            background: rgba(51, 144, 236, 0.1);
+        }
+
+        .audience-option-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .audience-option-desc {
+            font-size: 12px;
+            color: var(--tg-theme-hint-color, #999);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-icon">🎨</div>
+        <div class="header-title">Создание рассылки</div>
+    </div>
+
+    <!-- Целевая аудитория -->
+    <div class="section">
+        <div class="section-title">👥 Целевая аудитория</div>
+        <div class="audience-selector" id="audienceSelector">
+            <div class="audience-option" data-type="all">
+                <div class="audience-option-title">📢 Всем пользователям</div>
+                <div class="audience-option-desc">Рассылка всем активным пользователям</div>
+            </div>
+            <div class="audience-option" data-type="loyalty">
+                <div class="audience-option-title">🎯 По уровню лояльности</div>
+                <div class="audience-option-desc">Выборочная рассылка по уровню</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Текст сообщения -->
+    <div class="section">
+        <div class="section-title">💬 Текст сообщения</div>
+        <div class="input-group">
+            <label class="input-label" for="messageText">Текст рассылки</label>
+            <textarea 
+                id="messageText" 
+                placeholder="Введите текст сообщения&#10;&#10;Поддерживается HTML:&#10;&lt;b&gt;жирный&lt;/b&gt;&#10;&lt;i&gt;курсив&lt;/i&gt;&#10;&lt;code&gt;код&lt;/code&gt;"
+                maxlength="4096"
+            ></textarea>
+            <div class="char-counter">
+                <span id="charCount">0</span>/4096 символов
+            </div>
+        </div>
+    </div>
+
+    <!-- Изображение -->
+    <div class="section">
+        <div class="section-title">🖼️ Изображение (опционально)</div>
+        <div class="file-upload">
+            <input type="file" id="imageInput" accept="image/*">
+            <button class="upload-btn" onclick="document.getElementById('imageInput').click()">
+                <span>📷</span>
+                <span>Выбрать изображение</span>
+            </button>
+            <div class="file-preview" id="imagePreview">
+                <img id="previewImg" src="" alt="Preview">
+                <div class="file-info">
+                    <div class="file-name" id="imageName"></div>
+                    <div class="file-size" id="imageSize"></div>
+                </div>
+                <button class="remove-btn" onclick="removeImage()">✕</button>
+            </div>
+            <div class="hint">Рекомендуемое разрешение: 1200x630px, макс. 5 МБ</div>
+        </div>
+    </div>
+
+    <!-- Файл -->
+    <div class="section">
+        <div class="section-title">📎 Файл (опционально)</div>
+        <div class="file-upload">
+            <input type="file" id="fileInput">
+            <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                <span>📄</span>
+                <span>Прикрепить файл</span>
+            </button>
+            <div class="file-preview" id="filePreview">
+                <div class="file-info">
+                    <div class="file-name" id="fileName"></div>
+                    <div class="file-size" id="fileSize"></div>
+                </div>
+                <button class="remove-btn" onclick="removeFile()">✕</button>
+            </div>
+            <div class="hint">PDF, DOCX, XLSX и другие документы, макс. 20 МБ</div>
+        </div>
+    </div>
+
+    <!-- Кнопки -->
+    <div class="section">
+        <div class="section-title">🔘 Кнопки (опционально)</div>
+        <div class="buttons-container" id="buttonsContainer"></div>
+        <button class="add-button-btn" onclick="addButton()">+ Добавить кнопку</button>
+        <div class="hint">Максимум 10 кнопок</div>
+    </div>
+
+    <!-- Предпросмотр -->
+    <div class="section preview-section">
+        <div class="preview-title">👁️ Предпросмотр</div>
+        <img id="previewMessageImage" class="preview-image" style="display: none;">
+        <div class="preview-message" id="previewMessage">Введите текст сообщения...</div>
+        <div class="preview-buttons" id="previewButtons"></div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        let selectedAudience = 'all';
+        let imageFile = null;
+        let attachedFile = null;
+        let buttons = [];
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', () => {
+            // Выбрать первую аудиторию по умолчанию
+            document.querySelector('.audience-option[data-type="all"]').classList.add('selected');
+
+            // Обработчики событий
+            document.querySelectorAll('.audience-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    document.querySelectorAll('.audience-option').forEach(o => o.classList.remove('selected'));
+                    option.classList.add('selected');
+                    selectedAudience = option.dataset.type;
+                });
+            });
+
+            document.getElementById('messageText').addEventListener('input', updatePreview);
+            document.getElementById('imageInput').addEventListener('change', handleImageSelect);
+            document.getElementById('fileInput').addEventListener('change', handleFileSelect);
+
+            // Настройка главной кнопки Telegram
+            tg.MainButton.setText('Создать рассылку');
+            tg.MainButton.onClick(() => sendBroadcast());
+            tg.MainButton.show();
+        });
+
+        function updatePreview() {
+            const text = document.getElementById('messageText').value;
+            document.getElementById('charCount').textContent = text.length;
+            
+            const preview = document.getElementById('previewMessage');
+            preview.innerHTML = text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
+                .replace(/\*(.+?)\*/g, '<i>$1</i>')
+                .replace(/`(.+?)`/g, '<code>$1</code>')
+                || 'Введите текст сообщения...';
+        }
+
+        function handleImageSelect(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (file.size > 5 * 1024 * 1024) {
+                tg.showAlert('Файл слишком большой! Максимум 5 МБ');
+                return;
+            }
+
+            imageFile = file;
+            document.getElementById('imageName').textContent = file.name;
+            document.getElementById('imageSize').textContent = formatFileSize(file.size);
+            document.getElementById('imagePreview').classList.add('active');
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('previewImg').src = e.target.result;
+                document.getElementById('previewMessageImage').src = e.target.result;
+                document.getElementById('previewMessageImage').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (file.size > 20 * 1024 * 1024) {
+                tg.showAlert('Файл слишком большой! Максимум 20 МБ');
+                return;
+            }
+
+            attachedFile = file;
+            document.getElementById('fileName').textContent = file.name;
+            document.getElementById('fileSize').textContent = formatFileSize(file.size);
+            document.getElementById('filePreview').classList.add('active');
+        }
+
+        function removeImage() {
+            imageFile = null;
+            document.getElementById('imageInput').value = '';
+            document.getElementById('imagePreview').classList.remove('active');
+            document.getElementById('previewMessageImage').style.display = 'none';
+        }
+
+        function removeFile() {
+            attachedFile = null;
+            document.getElementById('fileInput').value = '';
+            document.getElementById('filePreview').classList.remove('active');
+        }
+
+        function addButton() {
+            if (buttons.length >= 10) {
+                tg.showAlert('Максимум 10 кнопок');
+                return;
+            }
+
+            const buttonId = Date.now();
+            buttons.push({ id: buttonId, text: '', url: '' });
+
+            const container = document.getElementById('buttonsContainer');
+            const buttonItem = document.createElement('div');
+            buttonItem.className = 'button-item';
+            buttonItem.id = `button-${buttonId}`;
+            buttonItem.innerHTML = `
+                <div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+                    <input type="text" placeholder="Текст кнопки" onchange="updateButtonText(${buttonId}, this.value)">
+                    <input type="url" placeholder="https://..." onchange="updateButtonUrl(${buttonId}, this.value)">
+                </div>
+                <button class="remove-btn" onclick="removeButton(${buttonId})">✕</button>
+            `;
+            container.appendChild(buttonItem);
+        }
+
+        function updateButtonText(id, text) {
+            const button = buttons.find(b => b.id === id);
+            if (button) {
+                button.text = text;
+                updateButtonsPreview();
+            }
+        }
+
+        function updateButtonUrl(id, url) {
+            const button = buttons.find(b => b.id === id);
+            if (button) {
+                button.url = url;
+                updateButtonsPreview();
+            }
+        }
+
+        function removeButton(id) {
+            buttons = buttons.filter(b => b.id !== id);
+            document.getElementById(`button-${id}`).remove();
+            updateButtonsPreview();
+        }
+
+        function updateButtonsPreview() {
+            const preview = document.getElementById('previewButtons');
+            preview.innerHTML = '';
+            buttons.forEach(btn => {
+                if (btn.text && btn.url) {
+                    const buttonEl = document.createElement('div');
+                    buttonEl.className = 'preview-button';
+                    buttonEl.textContent = btn.text;
+                    preview.appendChild(buttonEl);
+                }
+            });
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' Б';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' КБ';
+            return (bytes / (1024 * 1024)).toFixed(1) + ' МБ';
+        }
+
+        async function sendBroadcast() {
+            const text = document.getElementById('messageText').value.trim();
+
+            if (!text) {
+                tg.showAlert('Введите текст сообщения');
+                return;
+            }
+
+            tg.MainButton.showProgress();
+
+            // Формируем данные для отправки
+            const data = {
+                audience: selectedAudience,
+                text: text,
+                buttons: buttons.filter(b => b.text && b.url),
+                hasImage: !!imageFile,
+                hasFile: !!attachedFile
+            };
+
+            // Если есть файлы, отправляем через бота (бот запросит файлы отдельно)
+            tg.sendData(JSON.stringify(data));
+        }
+    </script>
+</body>
+</html>
+
