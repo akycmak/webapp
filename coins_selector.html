@@ -346,8 +346,37 @@
 
         // Инициализация
         function init() {
+            // Загрузить активные монеты из БД (переданные ботом)
+            loadActiveCoinsFromBot();
             renderCoins();
             updateStats();
+        }
+        
+        // Загрузить активные монеты из бота
+        function loadActiveCoinsFromBot() {
+            // Telegram WebApp может передать данные через initDataUnsafe
+            const initData = tg.initDataUnsafe;
+            
+            if (initData && initData.start_param) {
+                try {
+                    // Декодировать данные (админ передает список активных монет)
+                    const activeCoinsData = JSON.parse(atob(initData.start_param));
+                    
+                    if (activeCoinsData && activeCoinsData.active_coins) {
+                        // Отфильтровать только активные монеты
+                        const activeCoinIds = activeCoinsData.active_coins;
+                        
+                        // Обновить статус монет
+                        Object.keys(coinsDatabase).forEach(category => {
+                            coinsDatabase[category] = coinsDatabase[category].filter(coin => 
+                                activeCoinIds.includes(coin.id)
+                            );
+                        });
+                    }
+                } catch (e) {
+                    console.error('Ошибка загрузки активных монет:', e);
+                }
+            }
         }
 
         // Отрисовка монет по категориям
