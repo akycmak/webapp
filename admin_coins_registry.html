@@ -13,169 +13,195 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--tg-theme-bg-color, #ffffff);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--tg-theme-bg-color, #ffffff);
             color: var(--tg-theme-text-color, #000000);
             padding: 16px;
             padding-bottom: 80px;
         }
 
         .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
+            text-align: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--tg-theme-hint-color, #ccc);
         }
 
         .header h1 {
             font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
         }
 
-        .btn-add {
-            padding: 8px 16px;
-            background-color: var(--tg-theme-button-color, #3390ec);
-            color: var(--tg-theme-button-text-color, #ffffff);
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
+        .header p {
             font-size: 14px;
-            font-weight: bold;
+            color: var(--tg-theme-hint-color, #999);
         }
 
         .stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .stat-card {
-            background-color: var(--tg-theme-secondary-bg-color, #f5f5f5);
-            padding: 12px;
-            border-radius: 8px;
+            background: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            padding: 16px;
+            border-radius: 12px;
             text-align: center;
         }
 
         .stat-value {
             font-size: 24px;
-            font-weight: bold;
+            font-weight: 700;
             color: var(--tg-theme-button-color, #3390ec);
+            margin-bottom: 4px;
         }
 
         .stat-label {
             font-size: 12px;
-            color: var(--tg-theme-hint-color, #999999);
-            margin-top: 4px;
+            color: var(--tg-theme-hint-color, #999);
         }
 
-        .search-box {
-            width: 100%;
-            padding: 12px;
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
             margin-bottom: 16px;
-            border: 1px solid var(--tg-theme-hint-color, #e0e0e0);
+        }
+
+        .action-btn {
+            padding: 12px;
+            background: var(--tg-theme-button-color, #3390ec);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border: none;
             border-radius: 8px;
-            font-size: 16px;
-            background-color: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .action-btn.secondary {
+            background: var(--tg-theme-secondary-bg-color, #e0e0e0);
             color: var(--tg-theme-text-color, #000000);
         }
 
-        .filter-tabs {
+        .coin-card {
+            background: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .coin-header {
             display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
         }
 
-        .filter-tab {
-            flex: 1;
-            padding: 8px;
-            border-radius: 8px;
-            background-color: var(--tg-theme-secondary-bg-color, #f5f5f5);
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .filter-tab.active {
-            background-color: var(--tg-theme-button-color, #3390ec);
-            color: var(--tg-theme-button-text-color, #ffffff);
-        }
-
-        .coins-table {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .coin-row {
-            background-color: var(--tg-theme-secondary-bg-color, #f5f5f5);
-            border-radius: 8px;
-            padding: 12px;
+        .coin-title {
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        .coin-row.inactive {
-            opacity: 0.5;
+        .coin-icon {
+            font-size: 32px;
         }
 
-        .coin-status {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-
-        .coin-status.active {
-            background-color: #28a745;
-        }
-
-        .coin-status.inactive {
-            background-color: #dc3545;
-        }
-
-        .coin-main-info {
-            flex: 1;
-        }
-
-        .coin-symbol {
-            font-size: 16px;
-            font-weight: bold;
+        .coin-info h3 {
+            font-size: 18px;
+            font-weight: 600;
             margin-bottom: 2px;
         }
 
-        .coin-name {
-            font-size: 12px;
-            color: var(--tg-theme-hint-color, #999999);
+        .coin-symbol {
+            font-size: 14px;
+            color: var(--tg-theme-hint-color, #999);
+        }
+
+        .coin-toggle {
+            width: 50px;
+            height: 28px;
+            background: #ccc;
+            border-radius: 14px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .coin-toggle.active {
+            background: #34c759;
+        }
+
+        .coin-toggle::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: left 0.3s;
+        }
+
+        .coin-toggle.active::after {
+            left: 24px;
+        }
+
+        .coin-details {
+            display: grid;
+            gap: 8px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            background: var(--tg-theme-bg-color, #ffffff);
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .detail-label {
+            color: var(--tg-theme-hint-color, #999);
+            font-weight: 500;
+        }
+
+        .detail-value {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
         }
 
         .coin-actions {
             display: flex;
             gap: 8px;
+            margin-top: 12px;
         }
 
-        .btn-icon {
-            width: 36px;
-            height: 36px;
-            border: none;
+        .coin-action-btn {
+            flex: 1;
+            padding: 8px;
+            background: var(--tg-theme-bg-color, #ffffff);
+            border: 1px solid var(--tg-theme-hint-color, #ccc);
             border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
             cursor: pointer;
-            font-size: 16px;
-            background-color: rgba(0, 0, 0, 0.05);
+            color: var(--tg-theme-text-color, #000000);
         }
 
-        .btn-edit {
-            background-color: var(--tg-theme-button-color, #3390ec);
-            color: var(--tg-theme-button-text-color, #ffffff);
-        }
-
-        .btn-toggle {
-            background-color: #ffc107;
-        }
-
-        .btn-delete {
-            background-color: #dc3545;
-            color: white;
+        .coin-action-btn.danger {
+            color: #ff3b30;
+            border-color: #ff3b30;
         }
 
         .modal {
@@ -185,30 +211,32 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.5);
             z-index: 1000;
+            padding: 16px;
             align-items: center;
             justify-content: center;
         }
 
-        .modal.show {
+        .modal.active {
             display: flex;
         }
 
         .modal-content {
-            background-color: var(--tg-theme-bg-color, #ffffff);
-            border-radius: 12px;
-            padding: 20px;
-            width: 90%;
-            max-width: 400px;
+            background: var(--tg-theme-bg-color, #ffffff);
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 500px;
+            width: 100%;
             max-height: 80vh;
             overflow-y: auto;
         }
 
         .modal-header {
             font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
         .form-group {
@@ -218,382 +246,444 @@
         .form-label {
             display: block;
             font-size: 14px;
+            font-weight: 500;
             margin-bottom: 8px;
-            color: var(--tg-theme-hint-color, #999999);
+            color: var(--tg-theme-hint-color, #999);
         }
 
         .form-input {
             width: 100%;
             padding: 12px;
-            border: 1px solid var(--tg-theme-hint-color, #e0e0e0);
+            border: 1px solid var(--tg-theme-hint-color, #ccc);
             border-radius: 8px;
-            font-size: 16px;
-            background-color: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            font-size: 15px;
+            background: var(--tg-theme-secondary-bg-color, #f5f5f5);
             color: var(--tg-theme-text-color, #000000);
         }
 
-        .form-textarea {
-            min-height: 80px;
-            resize: vertical;
+        .form-input:focus {
+            outline: none;
+            border-color: var(--tg-theme-button-color, #3390ec);
         }
 
-        .form-checkbox {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .form-select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--tg-theme-hint-color, #ccc);
+            border-radius: 8px;
+            font-size: 15px;
+            background: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            color: var(--tg-theme-text-color, #000000);
         }
 
-        .form-actions {
+        .modal-buttons {
             display: flex;
             gap: 8px;
             margin-top: 20px;
         }
 
-        .btn-form {
+        .modal-btn {
             flex: 1;
             padding: 12px;
             border: none;
             border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
+            font-size: 15px;
+            font-weight: 500;
             cursor: pointer;
         }
 
-        .btn-primary {
-            background-color: var(--tg-theme-button-color, #3390ec);
+        .modal-btn-primary {
+            background: var(--tg-theme-button-color, #3390ec);
             color: var(--tg-theme-button-text-color, #ffffff);
         }
 
-        .btn-secondary {
-            background-color: var(--tg-theme-secondary-bg-color, #f5f5f5);
+        .modal-btn-secondary {
+            background: var(--tg-theme-secondary-bg-color, #e0e0e0);
             color: var(--tg-theme-text-color, #000000);
         }
 
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--tg-theme-hint-color, #999999);
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 2000;
         }
 
-        .empty-icon {
-            font-size: 64px;
-            margin-bottom: 16px;
+        .toast.show {
+            opacity: 1;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .badge-bip39 {
+            background: #34c759;
+            color: white;
+        }
+
+        .badge-ton {
+            background: #0098ea;
+            color: white;
+        }
+
+        .badge-electrum {
+            background: #ff9500;
+            color: white;
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>🪙 Реестр монет</h1>
-        <button class="btn-add" id="addCoinBtn">➕ Добавить</button>
+        <h1>⚙️ Реестр монет</h1>
+        <p>Управление криптовалютами для деривации</p>
     </div>
 
     <div class="stats">
         <div class="stat-card">
-            <div class="stat-value" id="totalCount">0</div>
-            <div class="stat-label">Всего</div>
+            <div class="stat-value" id="totalCoins">0</div>
+            <div class="stat-label">Всего монет</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value" id="activeCount">0</div>
-            <div class="stat-label">Активных</div>
+            <div class="stat-value" id="activeCoins">0</div>
+            <div class="stat-label">Активные</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value" id="inactiveCount">0</div>
-            <div class="stat-label">Неактивных</div>
+            <div class="stat-value" id="inactiveCoins">0</div>
+            <div class="stat-label">Отключены</div>
         </div>
     </div>
 
-    <input type="text" class="search-box" id="searchInput" placeholder="🔍 Поиск по символу или названию...">
-
-    <div class="filter-tabs">
-        <button class="filter-tab active" data-filter="all">Все</button>
-        <button class="filter-tab" data-filter="active">Активные</button>
-        <button class="filter-tab" data-filter="inactive">Неактивные</button>
+    <div class="action-buttons">
+        <button class="action-btn" onclick="openAddModal()">
+            ➕ Добавить монету
+        </button>
+        <button class="action-btn secondary" onclick="resetToDefaults()">
+            🔄 Сбросить
+        </button>
     </div>
 
-    <div class="coins-table" id="coinsTable">
-        <div class="empty-state">
-            <div class="empty-icon">⏳</div>
-            <p>Загрузка...</p>
-        </div>
-    </div>
+    <div id="coinsContainer"></div>
 
-    <!-- Модальное окно для добавления/редактирования -->
+    <!-- Модальное окно добавления/редактирования -->
     <div class="modal" id="coinModal">
         <div class="modal-content">
             <div class="modal-header" id="modalTitle">Добавить монету</div>
             
             <div class="form-group">
-                <label class="form-label">Символ *</label>
-                <input type="text" class="form-input" id="symbolInput" placeholder="BTC, ETH...">
+                <label class="form-label">Название</label>
+                <input type="text" class="form-input" id="coinName" placeholder="Bitcoin">
             </div>
 
             <div class="form-group">
-                <label class="form-label">Название *</label>
-                <input type="text" class="form-input" id="nameInput" placeholder="Bitcoin, Ethereum...">
+                <label class="form-label">Символ</label>
+                <input type="text" class="form-input" id="coinSymbol" placeholder="BTC">
             </div>
 
             <div class="form-group">
-                <label class="form-label">Путь деривации *</label>
-                <input type="text" class="form-input" id="pathInput" placeholder="m/44'/0'/0'/0">
+                <label class="form-label">Иконка (эмодзи)</label>
+                <input type="text" class="form-input" id="coinIcon" placeholder="₿">
             </div>
 
             <div class="form-group">
-                <label class="form-label">Формат адреса *</label>
-                <input type="text" class="form-input" id="formatInput" placeholder="base58, hex...">
+                <label class="form-label">Тип</label>
+                <select class="form-select" id="coinType" onchange="updatePathVisibility()">
+                    <option value="BIP39">BIP39 (стандарт)</option>
+                    <option value="TON">TON (собственный)</option>
+                    <option value="ELECTRUM">Electrum</option>
+                </select>
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Заметки</label>
-                <textarea class="form-input form-textarea" id="notesInput" placeholder="Дополнительная информация..."></textarea>
+            <div class="form-group" id="pathGroup">
+                <label class="form-label">Деривационный путь</label>
+                <input type="text" class="form-input" id="coinPath" placeholder="m/44'/0'/0'/0">
             </div>
 
-            <div class="form-group">
-                <label class="form-checkbox">
-                    <input type="checkbox" id="activeInput" checked>
-                    <span>Активна</span>
-                </label>
-            </div>
-
-            <div class="form-actions">
-                <button class="btn-form btn-secondary" id="cancelBtn">Отмена</button>
-                <button class="btn-form btn-primary" id="saveBtn">Сохранить</button>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Отмена</button>
+                <button class="modal-btn modal-btn-primary" onclick="saveCoin()">Сохранить</button>
             </div>
         </div>
     </div>
 
+    <div class="toast" id="toast"></div>
+
     <script>
+        // Инициализация Telegram WebApp
         const tg = window.Telegram.WebApp;
         tg.expand();
+        tg.MainButton.setText('Сохранить изменения');
+        tg.MainButton.show();
+        tg.BackButton.show();
+        tg.BackButton.onClick(() => tg.close());
 
-        let coins = [];
-        let currentFilter = 'all';
+        // Базовый реестр монет (30+ монет)
+        let coinsRegistry = [
+            // Bitcoin
+            { id: 'btc', name: 'Bitcoin', symbol: 'BTC', type: 'BIP39', path: "m/44'/0'/0'/0", icon: '₿', active: true },
+            { id: 'btc_segwit', name: 'Bitcoin SegWit', symbol: 'BTC', type: 'BIP39', path: "m/49'/0'/0'/0", icon: '₿', active: true },
+            { id: 'btc_native', name: 'Bitcoin Native SegWit', symbol: 'BTC', type: 'BIP39', path: "m/84'/0'/0'/0", icon: '₿', active: true },
+            { id: 'ltc', name: 'Litecoin', symbol: 'LTC', type: 'BIP39', path: "m/44'/2'/0'/0", icon: 'Ł', active: true },
+            { id: 'bch', name: 'Bitcoin Cash', symbol: 'BCH', type: 'BIP39', path: "m/44'/145'/0'/0", icon: '💚', active: true },
+            { id: 'doge', name: 'Dogecoin', symbol: 'DOGE', type: 'BIP39', path: "m/44'/3'/0'/0", icon: '🐕', active: true },
+            { id: 'dash', name: 'Dash', symbol: 'DASH', type: 'BIP39', path: "m/44'/5'/0'/0", icon: '💳', active: false },
+            
+            // Ethereum / EVM
+            { id: 'eth', name: 'Ethereum', symbol: 'ETH', type: 'BIP39', path: "m/44'/60'/0'/0", icon: 'Ξ', active: true },
+            { id: 'usdt_erc20', name: 'Tether ERC-20', symbol: 'USDT', type: 'BIP39', path: "m/44'/60'/0'/0", icon: '₮', active: true },
+            { id: 'usdc_erc20', name: 'USD Coin ERC-20', symbol: 'USDC', type: 'BIP39', path: "m/44'/60'/0'/0", icon: '💵', active: true },
+            { id: 'bnb', name: 'BNB Chain', symbol: 'BNB', type: 'BIP39', path: "m/44'/60'/0'/0", icon: '🔶', active: true },
+            { id: 'matic', name: 'Polygon', symbol: 'MATIC', type: 'BIP39', path: "m/44'/60'/0'/0", icon: '🟣', active: true },
+            { id: 'avax', name: 'Avalanche C-Chain', symbol: 'AVAX', type: 'BIP39', path: "m/44'/60'/0'/0", icon: '🔺', active: true },
+            { id: 'ftm', name: 'Fantom', symbol: 'FTM', type: 'BIP39', path: "m/44'/60'/0'/0", icon: '👻', active: false },
+            { id: 'arb', name: 'Arbitrum', symbol: 'ARB', type: 'BIP39', path: "m/44'/60'/0'/0", icon: '🔷', active: true },
+            { id: 'op', name: 'Optimism', symbol: 'OP', type: 'BIP39', path: "m/44'/60'/0'/0", icon: '🔴', active: true },
+            
+            // Altcoins
+            { id: 'trx', name: 'Tron', symbol: 'TRX', type: 'BIP39', path: "m/44'/195'/0'/0", icon: '⚡', active: true },
+            { id: 'usdt_trc20', name: 'Tether TRC-20', symbol: 'USDT', type: 'BIP39', path: "m/44'/195'/0'/0", icon: '₮', active: true },
+            { id: 'ada', name: 'Cardano', symbol: 'ADA', type: 'BIP39', path: "m/1852'/1815'/0'/0/0", icon: '🔵', active: true },
+            { id: 'xrp', name: 'Ripple', symbol: 'XRP', type: 'BIP39', path: "m/44'/144'/0'/0", icon: '💧', active: true },
+            { id: 'xlm', name: 'Stellar', symbol: 'XLM', type: 'BIP39', path: "m/44'/148'/0'/0", icon: '⭐', active: false },
+            { id: 'sol', name: 'Solana', symbol: 'SOL', type: 'BIP39', path: "m/44'/501'/0'/0", icon: '◎', active: true },
+            { id: 'atom', name: 'Cosmos', symbol: 'ATOM', type: 'BIP39', path: "m/44'/118'/0'/0", icon: '⚛️', active: false },
+            { id: 'dot', name: 'Polkadot', symbol: 'DOT', type: 'BIP39', path: "m/44'/354'/0'/0", icon: '🔴', active: true },
+            { id: 'near', name: 'NEAR Protocol', symbol: 'NEAR', type: 'BIP39', path: "m/44'/397'/0'/0", icon: 'Ⓝ', active: false },
+            { id: 'eos', name: 'EOS', symbol: 'EOS', type: 'BIP39', path: "m/44'/194'/0'/0", icon: '📡', active: false },
+            
+            // Other
+            { id: 'ton', name: 'TON', symbol: 'TON', type: 'TON', path: null, icon: '💎', active: true },
+            { id: 'etc', name: 'Ethereum Classic', symbol: 'ETC', type: 'BIP39', path: "m/44'/61'/0'/0", icon: '🌱', active: false },
+            { id: 'zec', name: 'Zcash', symbol: 'ZEC', type: 'BIP39', path: "m/44'/133'/0'/0", icon: '🛡️', active: false },
+            { id: 'xmr', name: 'Monero', symbol: 'XMR', type: 'ELECTRUM', path: null, icon: '🔒', active: false },
+            { id: 'waves', name: 'Waves', symbol: 'WAVES', type: 'BIP39', path: "m/44'/5741564'/0'/0", icon: '🌊', active: false },
+        ];
+
         let editingCoinId = null;
 
-        async function loadCoins() {
-            try {
-                // TODO: Заменить на реальный API endpoint
-                const response = await fetch('/api/admin/coins');
-                coins = await response.json();
-                updateStats();
-                renderCoins();
-            } catch (error) {
-                console.error('Ошибка загрузки монет:', error);
-                // Тестовые данные
-                coins = [
-                    { id: 1, symbol: 'BTC', name: 'Bitcoin', derivation_path: "m/44'/0'/0'/0", address_format: 'base58', is_active: true, notes: '' },
-                    { id: 2, symbol: 'ETH', name: 'Ethereum', derivation_path: "m/44'/60'/0'/0", address_format: 'hex', is_active: true, notes: '' },
-                    { id: 3, symbol: 'LTC', name: 'Litecoin', derivation_path: "m/44'/2'/0'/0", address_format: 'base58', is_active: false, notes: 'Временно отключена' }
-                ];
-                updateStats();
-                renderCoins();
-            }
+        // Инициализация
+        function init() {
+            renderCoins();
+            updateStats();
         }
 
-        function updateStats() {
-            document.getElementById('totalCount').textContent = coins.length;
-            document.getElementById('activeCount').textContent = coins.filter(c => c.is_active).length;
-            document.getElementById('inactiveCount').textContent = coins.filter(c => !c.is_active).length;
-        }
-
-        function getFilteredCoins() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            let filtered = coins;
-
-            if (currentFilter === 'active') {
-                filtered = coins.filter(c => c.is_active);
-            } else if (currentFilter === 'inactive') {
-                filtered = coins.filter(c => !c.is_active);
-            }
-
-            if (searchTerm) {
-                filtered = filtered.filter(c => 
-                    c.symbol.toLowerCase().includes(searchTerm) ||
-                    c.name.toLowerCase().includes(searchTerm)
-                );
-            }
-
-            return filtered;
-        }
-
+        // Отрисовка монет
         function renderCoins() {
-            const filtered = getFilteredCoins();
-            const table = document.getElementById('coinsTable');
+            const container = document.getElementById('coinsContainer');
+            
+            container.innerHTML = coinsRegistry.map(coin => {
+                const badgeClass = coin.type === 'BIP39' ? 'badge-bip39' : coin.type === 'TON' ? 'badge-ton' : 'badge-electrum';
+                
+                return `
+                    <div class="coin-card">
+                        <div class="coin-header">
+                            <div class="coin-title">
+                                <div class="coin-icon">${coin.icon}</div>
+                                <div class="coin-info">
+                                    <h3>${coin.name} <span class="badge ${badgeClass}">${coin.type}</span></h3>
+                                    <div class="coin-symbol">${coin.symbol}</div>
+                                </div>
+                            </div>
+                            <div class="coin-toggle ${coin.active ? 'active' : ''}" onclick="toggleCoin('${coin.id}')"></div>
+                        </div>
 
-            if (filtered.length === 0) {
-                table.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">🔍</div>
-                        <p>Монеты не найдены</p>
+                        <div class="coin-details">
+                            ${coin.path ? `
+                            <div class="detail-row">
+                                <span class="detail-label">Путь деривации:</span>
+                                <span class="detail-value">${coin.path}</span>
+                            </div>
+                            ` : `
+                            <div class="detail-row">
+                                <span class="detail-label">Особенность:</span>
+                                <span class="detail-value">Собственный формат</span>
+                            </div>
+                            `}
+                        </div>
+
+                        <div class="coin-actions">
+                            <button class="coin-action-btn" onclick="editCoin('${coin.id}')">
+                                ✏️ Редактировать
+                            </button>
+                            <button class="coin-action-btn danger" onclick="deleteCoin('${coin.id}')">
+                                🗑️ Удалить
+                            </button>
+                        </div>
                     </div>
                 `;
-                return;
-            }
-
-            table.innerHTML = filtered.map(coin => `
-                <div class="coin-row ${!coin.is_active ? 'inactive' : ''}">
-                    <div class="coin-status ${coin.is_active ? 'active' : 'inactive'}"></div>
-                    <div class="coin-main-info">
-                        <div class="coin-symbol">${coin.symbol}</div>
-                        <div class="coin-name">${coin.name}</div>
-                    </div>
-                    <div class="coin-actions">
-                        <button class="btn-icon btn-edit" onclick="editCoin(${coin.id})">✏️</button>
-                        <button class="btn-icon btn-toggle" onclick="toggleCoin(${coin.id})">${coin.is_active ? '🔴' : '🟢'}</button>
-                        <button class="btn-icon btn-delete" onclick="deleteCoin(${coin.id})">🗑️</button>
-                    </div>
-                </div>
-            `).join('');
+            }).join('');
         }
 
-        window.editCoin = function(coinId) {
-            const coin = coins.find(c => c.id === coinId);
-            if (!coin) return;
+        // Переключение активности
+        function toggleCoin(coinId) {
+            const coin = coinsRegistry.find(c => c.id === coinId);
+            if (coin) {
+                coin.active = !coin.active;
+                renderCoins();
+                updateStats();
+                showToast(coin.active ? '✅ Монета активирована' : '⚠️ Монета отключена');
+            }
+        }
 
+        // Редактирование
+        function editCoin(coinId) {
             editingCoinId = coinId;
-            document.getElementById('modalTitle').textContent = 'Редактировать монету';
-            document.getElementById('symbolInput').value = coin.symbol;
-            document.getElementById('nameInput').value = coin.name;
-            document.getElementById('pathInput').value = coin.derivation_path;
-            document.getElementById('formatInput').value = coin.address_format;
-            document.getElementById('notesInput').value = coin.notes || '';
-            document.getElementById('activeInput').checked = coin.is_active;
+            const coin = coinsRegistry.find(c => c.id === coinId);
             
-            document.getElementById('coinModal').classList.add('show');
-        };
-
-        window.toggleCoin = async function(coinId) {
-            const coin = coins.find(c => c.id === coinId);
-            if (!coin) return;
-
-            coin.is_active = !coin.is_active;
-            
-            // TODO: Отправить на сервер
-            try {
-                await fetch(`/api/admin/coins/${coinId}/toggle`, {
-                    method: 'POST'
-                });
-            } catch (error) {
-                console.error('Ошибка изменения статуса:', error);
+            if (coin) {
+                document.getElementById('modalTitle').textContent = 'Редактировать монету';
+                document.getElementById('coinName').value = coin.name;
+                document.getElementById('coinSymbol').value = coin.symbol;
+                document.getElementById('coinIcon').value = coin.icon;
+                document.getElementById('coinType').value = coin.type;
+                document.getElementById('coinPath').value = coin.path || '';
+                
+                updatePathVisibility();
+                document.getElementById('coinModal').classList.add('active');
             }
+        }
 
-            updateStats();
-            renderCoins();
-        };
-
-        window.deleteCoin = async function(coinId) {
-            const confirmed = confirm('Вы уверены, что хотите удалить эту монету?');
-            if (!confirmed) return;
-
-            coins = coins.filter(c => c.id !== coinId);
-            
-            // TODO: Отправить на сервер
-            try {
-                await fetch(`/api/admin/coins/${coinId}`, {
-                    method: 'DELETE'
-                });
-            } catch (error) {
-                console.error('Ошибка удаления:', error);
+        // Удаление
+        function deleteCoin(coinId) {
+            if (confirm('Вы уверены, что хотите удалить эту монету?')) {
+                coinsRegistry = coinsRegistry.filter(c => c.id !== coinId);
+                renderCoins();
+                updateStats();
+                showToast('🗑️ Монета удалена');
             }
+        }
 
-            updateStats();
-            renderCoins();
-        };
-
-        // Добавить монету
-        document.getElementById('addCoinBtn').addEventListener('click', function() {
+        // Открыть модальное окно добавления
+        function openAddModal() {
             editingCoinId = null;
             document.getElementById('modalTitle').textContent = 'Добавить монету';
-            document.getElementById('symbolInput').value = '';
-            document.getElementById('nameInput').value = '';
-            document.getElementById('pathInput').value = '';
-            document.getElementById('formatInput').value = '';
-            document.getElementById('notesInput').value = '';
-            document.getElementById('activeInput').checked = true;
-            document.getElementById('coinModal').classList.add('show');
-        });
+            document.getElementById('coinName').value = '';
+            document.getElementById('coinSymbol').value = '';
+            document.getElementById('coinIcon').value = '';
+            document.getElementById('coinType').value = 'BIP39';
+            document.getElementById('coinPath').value = '';
+            
+            updatePathVisibility();
+            document.getElementById('coinModal').classList.add('active');
+        }
 
         // Закрыть модальное окно
-        document.getElementById('cancelBtn').addEventListener('click', function() {
-            document.getElementById('coinModal').classList.remove('show');
-        });
+        function closeModal() {
+            document.getElementById('coinModal').classList.remove('active');
+        }
+
+        // Показать/скрыть поле пути
+        function updatePathVisibility() {
+            const type = document.getElementById('coinType').value;
+            const pathGroup = document.getElementById('pathGroup');
+            
+            if (type === 'BIP39') {
+                pathGroup.style.display = 'block';
+            } else {
+                pathGroup.style.display = 'none';
+            }
+        }
 
         // Сохранить монету
-        document.getElementById('saveBtn').addEventListener('click', async function() {
-            const symbol = document.getElementById('symbolInput').value.trim();
-            const name = document.getElementById('nameInput').value.trim();
-            const path = document.getElementById('pathInput').value.trim();
-            const format = document.getElementById('formatInput').value.trim();
-            const notes = document.getElementById('notesInput').value.trim();
-            const isActive = document.getElementById('activeInput').checked;
-
-            if (!symbol || !name || !path || !format) {
-                alert('Заполните все обязательные поля');
+        function saveCoin() {
+            const name = document.getElementById('coinName').value.trim();
+            const symbol = document.getElementById('coinSymbol').value.trim().toUpperCase();
+            const icon = document.getElementById('coinIcon').value.trim();
+            const type = document.getElementById('coinType').value;
+            const path = document.getElementById('coinPath').value.trim();
+            
+            // Валидация
+            if (!name || !symbol || !icon) {
+                showToast('❌ Заполните все обязательные поля');
                 return;
             }
-
-            const coinData = {
-                symbol, name, 
-                derivation_path: path,
-                address_format: format,
-                is_active: isActive,
-                notes
-            };
-
+            
+            if (type === 'BIP39' && !path) {
+                showToast('❌ Укажите путь деривации для BIP39');
+                return;
+            }
+            
             if (editingCoinId) {
                 // Редактирование
-                const coin = coins.find(c => c.id === editingCoinId);
-                Object.assign(coin, coinData);
-                
-                // TODO: Отправить на сервер
-                try {
-                    await fetch(`/api/admin/coins/${editingCoinId}`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(coinData)
-                    });
-                } catch (error) {
-                    console.error('Ошибка сохранения:', error);
+                const coin = coinsRegistry.find(c => c.id === editingCoinId);
+                if (coin) {
+                    coin.name = name;
+                    coin.symbol = symbol;
+                    coin.icon = icon;
+                    coin.type = type;
+                    coin.path = type === 'BIP39' ? path : null;
+                    showToast('✅ Монета обновлена');
                 }
             } else {
-                // Новая монета
-                const newCoin = {
-                    id: Math.max(...coins.map(c => c.id), 0) + 1,
-                    ...coinData
-                };
-                coins.push(newCoin);
-                
-                // TODO: Отправить на сервер
-                try {
-                    await fetch('/api/admin/coins', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(coinData)
-                    });
-                } catch (error) {
-                    console.error('Ошибка добавления:', error);
-                }
+                // Добавление
+                const newId = symbol.toLowerCase() + '_' + Date.now();
+                coinsRegistry.push({
+                    id: newId,
+                    name: name,
+                    symbol: symbol,
+                    icon: icon,
+                    type: type,
+                    path: type === 'BIP39' ? path : null,
+                    active: true
+                });
+                showToast('✅ Монета добавлена');
             }
-
-            document.getElementById('coinModal').classList.remove('show');
-            updateStats();
+            
+            closeModal();
             renderCoins();
+            updateStats();
+        }
+
+        // Сбросить к значениям по умолчанию
+        function resetToDefaults() {
+            if (confirm('Сбросить реестр к стандартным значениям?')) {
+                init();
+                showToast('🔄 Реестр сброшен');
+            }
+        }
+
+        // Обновить статистику
+        function updateStats() {
+            document.getElementById('totalCoins').textContent = coinsRegistry.length;
+            document.getElementById('activeCoins').textContent = coinsRegistry.filter(c => c.active).length;
+            document.getElementById('inactiveCoins').textContent = coinsRegistry.filter(c => !c.active).length;
+        }
+
+        // Показать уведомление
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // Отправка данных
+        tg.MainButton.onClick(function() {
+            // Отправить обновленный реестр боту
+            tg.sendData(JSON.stringify({
+                coins: coinsRegistry
+            }));
         });
 
-        // Фильтрация
-        document.querySelectorAll('.filter-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-                currentFilter = this.dataset.filter;
-                renderCoins();
-            });
-        });
-
-        // Поиск
-        document.getElementById('searchInput').addEventListener('input', renderCoins);
-
-        loadCoins();
+        // Запуск
+        init();
     </script>
 </body>
 </html>
-
