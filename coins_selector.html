@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выбор монет</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            padding: 16px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: var(--tg-theme-hint-color, #999999);
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 16px;
+            border: 1px solid var(--tg-theme-hint-color, #e0e0e0);
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            color: var(--tg-theme-text-color, #000000);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            padding: 12px;
+            background-color: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            border-radius: 8px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--tg-theme-button-color, #3390ec);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--tg-theme-hint-color, #999999);
+        }
+
+        .coin-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .coin-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background-color: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .coin-item:active {
+            transform: scale(0.98);
+        }
+
+        .coin-item.selected {
+            background-color: var(--tg-theme-button-color, #3390ec);
+            color: var(--tg-theme-button-text-color, #ffffff);
+        }
+
+        .coin-checkbox {
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+            accent-color: var(--tg-theme-button-color, #3390ec);
+        }
+
+        .coin-info {
+            flex: 1;
+        }
+
+        .coin-symbol {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+
+        .coin-name {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+            position: sticky;
+            bottom: 16px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--tg-theme-button-color, #3390ec);
+            color: var(--tg-theme-button-text-color, #ffffff);
+        }
+
+        .btn-secondary {
+            background-color: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            color: var(--tg-theme-text-color, #000000);
+        }
+
+        .btn:active {
+            transform: scale(0.96);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--tg-theme-hint-color, #999999);
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🪙 Выбор монет</h1>
+        <p>Выберите монеты для деривации адресов</p>
+    </div>
+
+    <input type="text" class="search-box" id="searchInput" placeholder="🔍 Поиск по названию или символу...">
+
+    <div class="stats">
+        <div class="stat-item">
+            <div class="stat-value" id="selectedCount">0</div>
+            <div class="stat-label">Выбрано</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" id="totalCount">0</div>
+            <div class="stat-label">Всего</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-value" id="estimatedAddresses">0</div>
+            <div class="stat-label">Адресов</div>
+        </div>
+    </div>
+
+    <div class="coin-list" id="coinList">
+        <div class="empty-state">
+            <div class="empty-state-icon">⏳</div>
+            <p>Загрузка монет...</p>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button class="btn btn-secondary" id="selectAllBtn">Выбрать все</button>
+        <button class="btn btn-primary" id="confirmBtn">Продолжить</button>
+    </div>
+
+    <script>
+        // Инициализация Telegram WebApp
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.MainButton.text = "Продолжить";
+
+        // Данные
+        let allCoins = [];
+        let selectedCoins = new Set();
+        let depth = 1; // Глубина деривации по умолчанию
+
+        // Получить глубину из query параметров
+        const urlParams = new URLSearchParams(window.location.search);
+        depth = parseInt(urlParams.get('depth')) || 1;
+
+        // Загрузить список монет
+        async function loadCoins() {
+            try {
+                // TODO: Заменить на реальный API endpoint
+                const response = await fetch('/api/coins/active');
+                allCoins = await response.json();
+                
+                document.getElementById('totalCount').textContent = allCoins.length;
+                renderCoins(allCoins);
+            } catch (error) {
+                console.error('Ошибка загрузки монет:', error);
+                // Для демонстрации используем тестовые данные
+                allCoins = [
+                    { id: 1, symbol: 'BTC', name: 'Bitcoin', derivation_path: "m/44'/0'/0'/0" },
+                    { id: 2, symbol: 'ETH', name: 'Ethereum', derivation_path: "m/44'/60'/0'/0" },
+                    { id: 3, symbol: 'USDT', name: 'Tether', derivation_path: "m/44'/60'/0'/0" },
+                    { id: 4, symbol: 'BNB', name: 'Binance Coin', derivation_path: "m/44'/714'/0'/0" },
+                    { id: 5, symbol: 'SOL', name: 'Solana', derivation_path: "m/44'/501'/0'/0" }
+                ];
+                document.getElementById('totalCount').textContent = allCoins.length;
+                renderCoins(allCoins);
+            }
+        }
+
+        // Отрисовать список монет
+        function renderCoins(coins) {
+            const coinList = document.getElementById('coinList');
+            
+            if (coins.length === 0) {
+                coinList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🔍</div>
+                        <p>Монеты не найдены</p>
+                    </div>
+                `;
+                return;
+            }
+
+            coinList.innerHTML = coins.map(coin => `
+                <div class="coin-item ${selectedCoins.has(coin.id) ? 'selected' : ''}" data-coin-id="${coin.id}">
+                    <input type="checkbox" class="coin-checkbox" ${selectedCoins.has(coin.id) ? 'checked' : ''}>
+                    <div class="coin-info">
+                        <div class="coin-symbol">${coin.symbol}</div>
+                        <div class="coin-name">${coin.name}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Добавить обработчики кликов
+            document.querySelectorAll('.coin-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const coinId = parseInt(this.dataset.coinId);
+                    toggleCoin(coinId);
+                });
+            });
+
+            updateStats();
+        }
+
+        // Переключить выбор монеты
+        function toggleCoin(coinId) {
+            if (selectedCoins.has(coinId)) {
+                selectedCoins.delete(coinId);
+            } else {
+                selectedCoins.add(coinId);
+            }
+            renderCoins(getFilteredCoins());
+        }
+
+        // Обновить статистику
+        function updateStats() {
+            document.getElementById('selectedCount').textContent = selectedCoins.size;
+            // Приблизительный расчёт количества адресов: выбранные монеты * (2^depth)
+            const estimatedAddresses = selectedCoins.size * Math.pow(2, depth);
+            document.getElementById('estimatedAddresses').textContent = estimatedAddresses;
+            
+            // Обновить MainButton
+            if (selectedCoins.size > 0) {
+                tg.MainButton.show();
+                tg.MainButton.enable();
+            } else {
+                tg.MainButton.hide();
+            }
+        }
+
+        // Фильтрация монет
+        function getFilteredCoins() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            if (!searchTerm) return allCoins;
+            
+            return allCoins.filter(coin => 
+                coin.symbol.toLowerCase().includes(searchTerm) ||
+                coin.name.toLowerCase().includes(searchTerm)
+            );
+        }
+
+        // Поиск
+        document.getElementById('searchInput').addEventListener('input', function() {
+            renderCoins(getFilteredCoins());
+        });
+
+        // Выбрать все
+        document.getElementById('selectAllBtn').addEventListener('click', function() {
+            const filteredCoins = getFilteredCoins();
+            filteredCoins.forEach(coin => selectedCoins.add(coin.id));
+            renderCoins(filteredCoins);
+        });
+
+        // Подтверждение
+        document.getElementById('confirmBtn').addEventListener('click', sendData);
+        tg.MainButton.onClick(sendData);
+
+        function sendData() {
+            if (selectedCoins.size === 0) {
+                tg.showAlert('Выберите хотя бы одну монету');
+                return;
+            }
+
+            const selectedCoinsData = allCoins
+                .filter(coin => selectedCoins.has(coin.id))
+                .map(coin => ({ id: coin.id, symbol: coin.symbol, name: coin.name }));
+
+            const result = {
+                coins: selectedCoinsData,
+                depth: depth,
+                estimated_addresses: selectedCoins.size * Math.pow(2, depth)
+            };
+
+            tg.sendData(JSON.stringify(result));
+            tg.close();
+        }
+
+        // Загрузить монеты при загрузке страницы
+        loadCoins();
+    </script>
+</body>
+</html>
+
