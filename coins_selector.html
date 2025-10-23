@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Выбор монет</title>
+    <title>Выбор криптовалют</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
@@ -13,45 +13,38 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--tg-theme-bg-color, #ffffff);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--tg-theme-bg-color, #ffffff);
             color: var(--tg-theme-text-color, #000000);
             padding: 16px;
+            padding-bottom: 80px;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--tg-theme-hint-color, #ccc);
         }
 
         .header h1 {
             font-size: 24px;
+            font-weight: 600;
             margin-bottom: 8px;
         }
 
         .header p {
             font-size: 14px;
-            color: var(--tg-theme-hint-color, #999999);
-        }
-
-        .search-box {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 16px;
-            border: 1px solid var(--tg-theme-hint-color, #e0e0e0);
-            border-radius: 8px;
-            font-size: 16px;
-            background-color: var(--tg-theme-secondary-bg-color, #f5f5f5);
-            color: var(--tg-theme-text-color, #000000);
+            color: var(--tg-theme-hint-color, #999);
         }
 
         .stats {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-around;
+            padding: 16px;
+            background: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            border-radius: 12px;
             margin-bottom: 16px;
-            padding: 12px;
-            background-color: var(--tg-theme-secondary-bg-color, #f5f5f5);
-            border-radius: 8px;
         }
 
         .stat-item {
@@ -59,27 +52,107 @@
         }
 
         .stat-value {
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 24px;
+            font-weight: 700;
             color: var(--tg-theme-button-color, #3390ec);
         }
 
         .stat-label {
             font-size: 12px;
-            color: var(--tg-theme-hint-color, #999999);
+            color: var(--tg-theme-hint-color, #999);
+            margin-top: 4px;
         }
 
-        .coin-list {
+        .quick-actions {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .quick-btn {
+            flex: 1;
+            padding: 10px;
+            background: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            color: var(--tg-theme-text-color, #000000);
+        }
+
+        .quick-btn:active {
+            opacity: 0.7;
+        }
+
+        .search-box {
+            position: sticky;
+            top: 0;
+            background: var(--tg-theme-bg-color, #ffffff);
+            padding: 8px 0;
+            margin-bottom: 16px;
+            z-index: 10;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--tg-theme-hint-color, #ccc);
+            border-radius: 12px;
+            font-size: 15px;
+            background: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            color: var(--tg-theme-text-color, #000000);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--tg-theme-button-color, #3390ec);
+        }
+
+        .category {
+            margin-bottom: 24px;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .category-title {
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .category-badge {
+            background: var(--tg-theme-button-color, #3390ec);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .category-coins {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 4px;
         }
 
         .coin-item {
             display: flex;
             align-items: center;
             padding: 12px;
-            background-color: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            background: var(--tg-theme-bg-color, #ffffff);
+            border: 1px solid var(--tg-theme-hint-color, #ddd);
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s;
@@ -90,84 +163,96 @@
         }
 
         .coin-item.selected {
-            background-color: var(--tg-theme-button-color, #3390ec);
+            background: var(--tg-theme-button-color, #3390ec);
+            border-color: var(--tg-theme-button-color, #3390ec);
             color: var(--tg-theme-button-text-color, #ffffff);
         }
 
         .coin-checkbox {
             width: 24px;
             height: 24px;
+            border: 2px solid var(--tg-theme-hint-color, #ccc);
+            border-radius: 6px;
             margin-right: 12px;
-            accent-color: var(--tg-theme-button-color, #3390ec);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .coin-item.selected .coin-checkbox {
+            background: var(--tg-theme-button-text-color, #ffffff);
+            border-color: var(--tg-theme-button-text-color, #ffffff);
+        }
+
+        .coin-checkbox::after {
+            content: '✓';
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--tg-theme-button-color, #3390ec);
+            display: none;
+        }
+
+        .coin-item.selected .coin-checkbox::after {
+            display: block;
         }
 
         .coin-info {
             flex: 1;
         }
 
-        .coin-symbol {
-            font-size: 16px;
-            font-weight: bold;
+        .coin-name {
+            font-size: 15px;
+            font-weight: 600;
             margin-bottom: 2px;
         }
 
-        .coin-name {
-            font-size: 12px;
+        .coin-symbol {
+            font-size: 13px;
             opacity: 0.7;
         }
 
-        .actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 16px;
-            position: sticky;
-            bottom: 16px;
+        .coin-item.selected .coin-symbol {
+            opacity: 0.9;
         }
 
-        .btn {
-            flex: 1;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
+        .coin-badge {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 8px;
         }
 
-        .btn-primary {
-            background-color: var(--tg-theme-button-color, #3390ec);
-            color: var(--tg-theme-button-text-color, #ffffff);
+        .badge-bip39 {
+            background: #34c759;
+            color: white;
         }
 
-        .btn-secondary {
-            background-color: var(--tg-theme-secondary-bg-color, #f5f5f5);
-            color: var(--tg-theme-text-color, #000000);
+        .badge-ton {
+            background: #0098ea;
+            color: white;
         }
 
-        .btn:active {
-            transform: scale(0.96);
+        .badge-electrum {
+            background: #ff9500;
+            color: white;
         }
 
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--tg-theme-hint-color, #999999);
+        .coin-item.selected .coin-badge {
+            opacity: 0.9;
         }
 
-        .empty-state-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>🪙 Выбор монет</h1>
-        <p>Выберите монеты для деривации адресов</p>
+        <h1>🪙 Выбор криптовалют</h1>
+        <p>Выберите монеты для деривации кошельков</p>
     </div>
-
-    <input type="text" class="search-box" id="searchInput" placeholder="🔍 Поиск по названию или символу...">
 
     <div class="stats">
         <div class="stat-item">
@@ -178,174 +263,266 @@
             <div class="stat-value" id="totalCount">0</div>
             <div class="stat-label">Всего</div>
         </div>
-        <div class="stat-item">
-            <div class="stat-value" id="estimatedAddresses">0</div>
-            <div class="stat-label">Адресов</div>
-        </div>
     </div>
 
-    <div class="coin-list" id="coinList">
-        <div class="empty-state">
-            <div class="empty-state-icon">⏳</div>
-            <p>Загрузка монет...</p>
-        </div>
+    <div class="quick-actions">
+        <button class="quick-btn" onclick="selectCategory('popular')">⭐ Популярные</button>
+        <button class="quick-btn" onclick="selectAll()">☑️ Все</button>
+        <button class="quick-btn" onclick="deselectAll()">⬜ Очистить</button>
     </div>
 
-    <div class="actions">
-        <button class="btn btn-secondary" id="selectAllBtn">Выбрать все</button>
-        <button class="btn btn-primary" id="confirmBtn">Продолжить</button>
+    <div class="search-box">
+        <input 
+            type="text" 
+            class="search-input" 
+            id="searchInput" 
+            placeholder="🔍 Поиск криптовалюты..."
+            oninput="filterCoins()"
+        >
     </div>
+
+    <div id="coinsContainer"></div>
 
     <script>
         // Инициализация Telegram WebApp
         const tg = window.Telegram.WebApp;
         tg.expand();
-        tg.MainButton.text = "Продолжить";
+        tg.MainButton.setText('Начать деривацию');
+        tg.MainButton.show();
 
-        // Данные
-        let allCoins = [];
+        // База криптовалют с деривационными путями
+        const coinsDatabase = {
+            popular: [
+                { id: 'btc', name: 'Bitcoin', symbol: 'BTC', type: 'BIP39', path: "m/44'/0'/0'/0", icon: '₿' },
+                { id: 'eth', name: 'Ethereum', symbol: 'ETH', type: 'BIP39', path: "m/44'/60'/0'/0", icon: 'Ξ' },
+                { id: 'usdt_erc20', name: 'Tether (ERC-20)', symbol: 'USDT', type: 'BIP39', path: "m/44'/60'/0'/0", icon: '₮' },
+                { id: 'bnb', name: 'BNB Chain', symbol: 'BNB', type: 'BIP39', path: "m/44'/60'/0'/0", icon: '🔶' },
+                { id: 'ton', name: 'TON', symbol: 'TON', type: 'TON', path: null, icon: '💎' },
+                { id: 'trx', name: 'Tron', symbol: 'TRX', type: 'BIP39', path: "m/44'/195'/0'/0", icon: '⚡' },
+            ],
+            bitcoin: [
+                { id: 'btc', name: 'Bitcoin', symbol: 'BTC', type: 'BIP39', path: "m/44'/0'/0'/0", icon: '₿' },
+                { id: 'btc_segwit', name: 'Bitcoin SegWit', symbol: 'BTC', type: 'BIP39', path: "m/49'/0'/0'/0", icon: '₿' },
+                { id: 'btc_native', name: 'Bitcoin Native SegWit', symbol: 'BTC', type: 'BIP39', path: "m/84'/0'/0'/0", icon: '₿' },
+                { id: 'ltc', name: 'Litecoin', symbol: 'LTC', type: 'BIP39', path: "m/44'/2'/0'/0", icon: 'Ł' },
+                { id: 'bch', name: 'Bitcoin Cash', symbol: 'BCH', type: 'BIP39', path: "m/44'/145'/0'/0", icon: '💚' },
+                { id: 'doge', name: 'Dogecoin', symbol: 'DOGE', type: 'BIP39', path: "m/44'/3'/0'/0", icon: '🐕' },
+                { id: 'dash', name: 'Dash', symbol: 'DASH', type: 'BIP39', path: "m/44'/5'/0'/0", icon: '💳' },
+            ],
+            ethereum: [
+                { id: 'eth', name: 'Ethereum', symbol: 'ETH', type: 'BIP39', path: "m/44'/60'/0'/0", icon: 'Ξ' },
+                { id: 'usdt_erc20', name: 'Tether (ERC-20)', symbol: 'USDT', type: 'BIP39', path: "m/44'/60'/0'/0", icon: '₮' },
+                { id: 'usdc_erc20', name: 'USD Coin (ERC-20)', symbol: 'USDC', type: 'BIP39', path: "m/44'/60'/0'/0", icon: '💵' },
+                { id: 'bnb', name: 'BNB Chain', symbol: 'BNB', type: 'BIP39', path: "m/44'/60'/0'/0", icon: '🔶' },
+                { id: 'matic', name: 'Polygon', symbol: 'MATIC', type: 'BIP39', path: "m/44'/60'/0'/0", icon: '🟣' },
+                { id: 'avax', name: 'Avalanche C-Chain', symbol: 'AVAX', type: 'BIP39', path: "m/44'/60'/0'/0", icon: '🔺' },
+                { id: 'ftm', name: 'Fantom', symbol: 'FTM', type: 'BIP39', path: "m/44'/60'/0'/0", icon: '👻' },
+                { id: 'arb', name: 'Arbitrum', symbol: 'ARB', type: 'BIP39', path: "m/44'/60'/0'/0", icon: '🔷' },
+                { id: 'op', name: 'Optimism', symbol: 'OP', type: 'BIP39', path: "m/44'/60'/0'/0", icon: '🔴' },
+            ],
+            altcoins: [
+                { id: 'trx', name: 'Tron', symbol: 'TRX', type: 'BIP39', path: "m/44'/195'/0'/0", icon: '⚡' },
+                { id: 'usdt_trc20', name: 'Tether (TRC-20)', symbol: 'USDT', type: 'BIP39', path: "m/44'/195'/0'/0", icon: '₮' },
+                { id: 'ada', name: 'Cardano', symbol: 'ADA', type: 'BIP39', path: "m/1852'/1815'/0'/0/0", icon: '🔵' },
+                { id: 'xrp', name: 'Ripple', symbol: 'XRP', type: 'BIP39', path: "m/44'/144'/0'/0", icon: '💧' },
+                { id: 'xlm', name: 'Stellar', symbol: 'XLM', type: 'BIP39', path: "m/44'/148'/0'/0", icon: '⭐' },
+                { id: 'sol', name: 'Solana', symbol: 'SOL', type: 'BIP39', path: "m/44'/501'/0'/0", icon: '◎' },
+                { id: 'atom', name: 'Cosmos', symbol: 'ATOM', type: 'BIP39', path: "m/44'/118'/0'/0", icon: '⚛️' },
+                { id: 'dot', name: 'Polkadot', symbol: 'DOT', type: 'BIP39', path: "m/44'/354'/0'/0", icon: '🔴' },
+                { id: 'near', name: 'NEAR Protocol', symbol: 'NEAR', type: 'BIP39', path: "m/44'/397'/0'/0", icon: 'Ⓝ' },
+            ],
+            other: [
+                { id: 'ton', name: 'TON', symbol: 'TON', type: 'TON', path: null, icon: '💎' },
+                { id: 'etc', name: 'Ethereum Classic', symbol: 'ETC', type: 'BIP39', path: "m/44'/61'/0'/0", icon: '🌱' },
+                { id: 'zec', name: 'Zcash', symbol: 'ZEC', type: 'BIP39', path: "m/44'/133'/0'/0", icon: '🛡️' },
+                { id: 'xmr', name: 'Monero', symbol: 'XMR', type: 'ELECTRUM', path: null, icon: '🔒' },
+                { id: 'eos', name: 'EOS', symbol: 'EOS', type: 'BIP39', path: "m/44'/194'/0'/0", icon: '📡' },
+                { id: 'waves', name: 'Waves', symbol: 'WAVES', type: 'BIP39', path: "m/44'/5741564'/0'/0", icon: '🌊' },
+            ]
+        };
+
+        // Состояние выбранных монет
         let selectedCoins = new Set();
-        let depth = 1; // Глубина деривации по умолчанию
 
-        // Получить глубину из query параметров
-        const urlParams = new URLSearchParams(window.location.search);
-        depth = parseInt(urlParams.get('depth')) || 1;
-
-        // Загрузить список монет
-        async function loadCoins() {
-            try {
-                // TODO: Заменить на реальный API endpoint
-                const response = await fetch('/api/coins/active');
-                allCoins = await response.json();
-                
-                document.getElementById('totalCount').textContent = allCoins.length;
-                renderCoins(allCoins);
-            } catch (error) {
-                console.error('Ошибка загрузки монет:', error);
-                // Для демонстрации используем тестовые данные
-                allCoins = [
-                    { id: 1, symbol: 'BTC', name: 'Bitcoin', derivation_path: "m/44'/0'/0'/0" },
-                    { id: 2, symbol: 'ETH', name: 'Ethereum', derivation_path: "m/44'/60'/0'/0" },
-                    { id: 3, symbol: 'USDT', name: 'Tether', derivation_path: "m/44'/60'/0'/0" },
-                    { id: 4, symbol: 'BNB', name: 'Binance Coin', derivation_path: "m/44'/714'/0'/0" },
-                    { id: 5, symbol: 'SOL', name: 'Solana', derivation_path: "m/44'/501'/0'/0" }
-                ];
-                document.getElementById('totalCount').textContent = allCoins.length;
-                renderCoins(allCoins);
-            }
-        }
-
-        // Отрисовать список монет
-        function renderCoins(coins) {
-            const coinList = document.getElementById('coinList');
-            
-            if (coins.length === 0) {
-                coinList.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">🔍</div>
-                        <p>Монеты не найдены</p>
-                    </div>
-                `;
-                return;
-            }
-
-            coinList.innerHTML = coins.map(coin => `
-                <div class="coin-item ${selectedCoins.has(coin.id) ? 'selected' : ''}" data-coin-id="${coin.id}">
-                    <input type="checkbox" class="coin-checkbox" ${selectedCoins.has(coin.id) ? 'checked' : ''}>
-                    <div class="coin-info">
-                        <div class="coin-symbol">${coin.symbol}</div>
-                        <div class="coin-name">${coin.name}</div>
-                    </div>
-                </div>
-            `).join('');
-
-            // Добавить обработчики кликов
-            document.querySelectorAll('.coin-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    const coinId = parseInt(this.dataset.coinId);
-                    toggleCoin(coinId);
-                });
-            });
-
+        // Инициализация
+        function init() {
+            renderCoins();
             updateStats();
         }
 
-        // Переключить выбор монеты
+        // Отрисовка монет по категориям
+        function renderCoins() {
+            const container = document.getElementById('coinsContainer');
+            container.innerHTML = '';
+
+            // Получить все уникальные монеты
+            const allCoins = {};
+            Object.values(coinsDatabase).flat().forEach(coin => {
+                if (!allCoins[coin.id]) {
+                    allCoins[coin.id] = coin;
+                }
+            });
+
+            document.getElementById('totalCount').textContent = Object.keys(allCoins).length;
+
+            // Отрисовать по категориям
+            Object.entries(coinsDatabase).forEach(([categoryKey, coins]) => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'category';
+                categoryDiv.dataset.category = categoryKey;
+
+                const categoryName = {
+                    popular: '⭐ Популярные',
+                    bitcoin: '₿ Bitcoin-подобные',
+                    ethereum: 'Ξ EVM-совместимые',
+                    altcoins: '🌐 Альткоины',
+                    other: '🔧 Другие'
+                }[categoryKey];
+
+                categoryDiv.innerHTML = `
+                    <div class="category-header" onclick="toggleCategory('${categoryKey}')">
+                        <div class="category-title">
+                            ${categoryName}
+                            <span class="category-badge">${coins.length}</span>
+                        </div>
+                    </div>
+                    <div class="category-coins" id="category-${categoryKey}">
+                        ${coins.map(coin => renderCoin(coin)).join('')}
+                    </div>
+                `;
+
+                container.appendChild(categoryDiv);
+            });
+        }
+
+        // Отрисовка одной монеты
+        function renderCoin(coin) {
+            const isSelected = selectedCoins.has(coin.id);
+            const badgeClass = coin.type === 'BIP39' ? 'badge-bip39' : coin.type === 'TON' ? 'badge-ton' : 'badge-electrum';
+            
+            return `
+                <div 
+                    class="coin-item ${isSelected ? 'selected' : ''}" 
+                    data-coin-id="${coin.id}"
+                    data-coin-name="${coin.name}"
+                    data-coin-symbol="${coin.symbol}"
+                    onclick="toggleCoin('${coin.id}')"
+                >
+                    <div class="coin-checkbox"></div>
+                    <div class="coin-info">
+                        <div class="coin-name">${coin.icon} ${coin.name}</div>
+                        <div class="coin-symbol">${coin.symbol}${coin.path ? ` • ${coin.path}` : ''}</div>
+                    </div>
+                    <span class="coin-badge ${badgeClass}">${coin.type}</span>
+                </div>
+            `;
+        }
+
+        // Переключение монеты
         function toggleCoin(coinId) {
             if (selectedCoins.has(coinId)) {
                 selectedCoins.delete(coinId);
             } else {
                 selectedCoins.add(coinId);
             }
-            renderCoins(getFilteredCoins());
+            
+            const coinElement = document.querySelector(`[data-coin-id="${coinId}"]`);
+            coinElement.classList.toggle('selected');
+            
+            updateStats();
         }
 
-        // Обновить статистику
+        // Обновление статистики
         function updateStats() {
             document.getElementById('selectedCount').textContent = selectedCoins.size;
-            // Приблизительный расчёт количества адресов: выбранные монеты * (2^depth)
-            const estimatedAddresses = selectedCoins.size * Math.pow(2, depth);
-            document.getElementById('estimatedAddresses').textContent = estimatedAddresses;
             
-            // Обновить MainButton
+            // Активировать/деактивировать кнопку
             if (selectedCoins.size > 0) {
-                tg.MainButton.show();
+                tg.MainButton.setText(`Начать деривацию (${selectedCoins.size})`);
                 tg.MainButton.enable();
             } else {
-                tg.MainButton.hide();
+                tg.MainButton.setText('Выберите хотя бы одну монету');
+                tg.MainButton.disable();
             }
         }
 
-        // Фильтрация монет
-        function getFilteredCoins() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            if (!searchTerm) return allCoins;
-            
-            return allCoins.filter(coin => 
-                coin.symbol.toLowerCase().includes(searchTerm) ||
-                coin.name.toLowerCase().includes(searchTerm)
-            );
+        // Выбрать категорию
+        function selectCategory(category) {
+            selectedCoins.clear();
+            coinsDatabase[category].forEach(coin => {
+                selectedCoins.add(coin.id);
+            });
+            renderCoins();
+            updateStats();
+        }
+
+        // Выбрать все
+        function selectAll() {
+            selectedCoins.clear();
+            Object.values(coinsDatabase).flat().forEach(coin => {
+                selectedCoins.add(coin.id);
+            });
+            renderCoins();
+            updateStats();
+        }
+
+        // Снять выбор
+        function deselectAll() {
+            selectedCoins.clear();
+            renderCoins();
+            updateStats();
         }
 
         // Поиск
-        document.getElementById('searchInput').addEventListener('input', function() {
-            renderCoins(getFilteredCoins());
-        });
+        function filterCoins() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            
+            document.querySelectorAll('.coin-item').forEach(item => {
+                const name = item.dataset.coinName.toLowerCase();
+                const symbol = item.dataset.coinSymbol.toLowerCase();
+                
+                if (name.includes(query) || symbol.includes(query)) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        }
 
-        // Выбрать все
-        document.getElementById('selectAllBtn').addEventListener('click', function() {
-            const filteredCoins = getFilteredCoins();
-            filteredCoins.forEach(coin => selectedCoins.add(coin.id));
-            renderCoins(filteredCoins);
-        });
+        // Свернуть/развернуть категорию
+        function toggleCategory(categoryKey) {
+            const categoryCoins = document.getElementById(`category-${categoryKey}`);
+            categoryCoins.classList.toggle('hidden');
+        }
 
-        // Подтверждение
-        document.getElementById('confirmBtn').addEventListener('click', sendData);
-        tg.MainButton.onClick(sendData);
-
-        function sendData() {
+        // Отправка данных
+        tg.MainButton.onClick(function() {
             if (selectedCoins.size === 0) {
-                tg.showAlert('Выберите хотя бы одну монету');
                 return;
             }
 
-            const selectedCoinsData = allCoins
-                .filter(coin => selectedCoins.has(coin.id))
-                .map(coin => ({ id: coin.id, symbol: coin.symbol, name: coin.name }));
+            // Получить полные данные выбранных монет
+            const selectedCoinsData = [];
+            Object.values(coinsDatabase).flat().forEach(coin => {
+                if (selectedCoins.has(coin.id)) {
+                    selectedCoinsData.push(coin);
+                }
+            });
 
-            const result = {
-                coins: selectedCoinsData,
-                depth: depth,
-                estimated_addresses: selectedCoins.size * Math.pow(2, depth)
-            };
+            // Отправить данные боту
+            tg.sendData(JSON.stringify({
+                coins: selectedCoinsData
+            }));
+        });
 
-            tg.sendData(JSON.stringify(result));
+        // Закрытие WebApp
+        tg.BackButton.show();
+        tg.BackButton.onClick(function() {
             tg.close();
-        }
+        });
 
-        // Загрузить монеты при загрузке страницы
-        loadCoins();
+        // Запуск
+        init();
     </script>
 </body>
 </html>
-
