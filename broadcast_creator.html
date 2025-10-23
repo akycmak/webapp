@@ -21,21 +21,21 @@
         }
 
         .header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            text-align: center;
             margin-bottom: 24px;
             padding-bottom: 16px;
-            border-bottom: 1px solid var(--tg-theme-hint-color, #999);
+            border-bottom: 1px solid var(--tg-theme-hint-color, #ccc);
         }
 
-        .header-icon {
-            font-size: 32px;
-        }
-
-        .header-title {
+        .header h1 {
             font-size: 24px;
             font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: var(--tg-theme-hint-color, #999);
         }
 
         .section {
@@ -46,41 +46,40 @@
         }
 
         .section-title {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
             margin-bottom: 12px;
-            color: var(--tg-theme-hint-color, #999);
-            text-transform: uppercase;
-        }
-
-        .input-group {
-            margin-bottom: 16px;
-        }
-
-        .input-label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
-
-        textarea, input[type="text"], input[type="url"] {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--tg-theme-hint-color, #ccc);
-            border-radius: 8px;
-            font-size: 16px;
-            font-family: inherit;
-            background: var(--tg-theme-bg-color, #fff);
-            color: var(--tg-theme-text-color, #000);
-            resize: vertical;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         textarea {
+            width: 100%;
             min-height: 120px;
+            padding: 12px;
+            border: 1px solid var(--tg-theme-hint-color, #ccc);
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            background: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            resize: vertical;
         }
 
-        .file-upload {
+        textarea:focus {
+            outline: none;
+            border-color: var(--tg-theme-button-color, #3390ec);
+        }
+
+        .char-counter {
+            text-align: right;
+            font-size: 12px;
+            color: var(--tg-theme-hint-color, #999);
+            margin-top: 4px;
+        }
+
+        .media-upload {
             display: flex;
             flex-direction: column;
             gap: 12px;
@@ -93,463 +92,450 @@
             gap: 8px;
             padding: 12px;
             background: var(--tg-theme-button-color, #3390ec);
-            color: var(--tg-theme-button-text-color, #fff);
+            color: var(--tg-theme-button-text-color, #ffffff);
             border: none;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 500;
             cursor: pointer;
+            transition: opacity 0.2s;
         }
 
         .upload-btn:active {
-            opacity: 0.8;
+            opacity: 0.7;
         }
 
-        .file-preview {
-            display: none;
-            padding: 12px;
-            background: var(--tg-theme-bg-color, #fff);
-            border: 1px solid var(--tg-theme-hint-color, #ccc);
-            border-radius: 8px;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .file-preview.active {
-            display: flex;
-        }
-
-        .file-preview img {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .file-info {
-            flex: 1;
-        }
-
-        .file-name {
-            font-weight: 500;
-            margin-bottom: 4px;
-        }
-
-        .file-size {
-            font-size: 12px;
-            color: var(--tg-theme-hint-color, #999);
-        }
-
-        .remove-btn {
-            padding: 8px;
-            background: #ff3b30;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .buttons-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .button-item {
-            display: flex;
-            gap: 8px;
-            align-items: flex-start;
-        }
-
-        .button-item input {
-            flex: 1;
-        }
-
-        .add-button-btn {
-            width: 100%;
-            padding: 10px;
-            background: transparent;
-            color: var(--tg-theme-button-color, #3390ec);
-            border: 2px dashed var(--tg-theme-button-color, #3390ec);
-            border-radius: 8px;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        .preview-section {
-            background: var(--tg-theme-bg-color, #fff);
-            border: 2px solid var(--tg-theme-button-color, #3390ec);
-            border-radius: 12px;
-            padding: 16px;
-        }
-
-        .preview-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: var(--tg-theme-button-color, #3390ec);
-        }
-
-        .preview-message {
-            background: var(--tg-theme-secondary-bg-color, #f5f5f5);
-            border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 12px;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-
-        .preview-image {
-            width: 100%;
-            max-height: 300px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 12px;
-        }
-
-        .preview-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .preview-button {
-            padding: 10px;
-            background: var(--tg-theme-button-color, #3390ec);
-            color: var(--tg-theme-button-text-color, #fff);
-            border-radius: 8px;
-            text-align: center;
-            font-weight: 500;
-        }
-
-        .char-counter {
-            font-size: 12px;
-            color: var(--tg-theme-hint-color, #999);
-            text-align: right;
-            margin-top: 4px;
-        }
-
-        .hint {
-            font-size: 12px;
-            color: var(--tg-theme-hint-color, #999);
-            margin-top: 4px;
+        .upload-btn.secondary {
+            background: var(--tg-theme-secondary-bg-color, #e0e0e0);
+            color: var(--tg-theme-text-color, #000000);
         }
 
         input[type="file"] {
             display: none;
         }
 
-        .audience-selector {
+        .media-preview {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .media-preview.active {
+            display: flex;
+        }
+
+        .preview-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--tg-theme-bg-color, #ffffff);
+        }
+
+        .preview-item img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+        }
+
+        .preview-item video {
+            width: 100%;
+            max-height: 300px;
+        }
+
+        .preview-remove {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 32px;
+            height: 32px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .file-info {
+            padding: 12px;
+            background: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .buttons-section {
             display: flex;
             flex-direction: column;
             gap: 8px;
         }
 
-        .audience-option {
+        .button-item {
+            display: flex;
+            gap: 8px;
             padding: 12px;
-            background: var(--tg-theme-bg-color, #fff);
-            border: 2px solid var(--tg-theme-hint-color, #ccc);
+            background: var(--tg-theme-bg-color, #ffffff);
             border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
+            align-items: center;
         }
 
-        .audience-option.selected {
+        .button-item input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid var(--tg-theme-hint-color, #ccc);
+            border-radius: 6px;
+            font-size: 14px;
+            background: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+        }
+
+        .button-item input:focus {
+            outline: none;
             border-color: var(--tg-theme-button-color, #3390ec);
-            background: rgba(51, 144, 236, 0.1);
         }
 
-        .audience-option-title {
-            font-weight: 600;
-            margin-bottom: 4px;
+        .btn-remove {
+            width: 32px;
+            height: 32px;
+            background: #ff3b30;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
         }
 
-        .audience-option-desc {
+        .add-button-btn {
+            width: 100%;
+            padding: 10px;
+            background: transparent;
+            border: 2px dashed var(--tg-theme-hint-color, #ccc);
+            border-radius: 8px;
+            color: var(--tg-theme-hint-color, #999);
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .preview-section {
+            border: 2px solid var(--tg-theme-button-color, #3390ec);
+        }
+
+        .preview-content {
+            padding: 12px;
+            background: var(--tg-theme-bg-color, #ffffff);
+            border-radius: 8px;
+            margin-top: 8px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .preview-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .preview-button {
+            padding: 8px 16px;
+            background: var(--tg-theme-button-color, #3390ec);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border-radius: 6px;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .error-message {
+            background: #ff3b30;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .error-message.active {
+            display: block;
+        }
+
+        .formatting-help {
             font-size: 12px;
             color: var(--tg-theme-hint-color, #999);
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .formatting-help code {
+            background: var(--tg-theme-secondary-bg-color, #f5f5f5);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-icon">🎨</div>
-        <div class="header-title">Создание рассылки</div>
-    </div>
+    <div class="error-message" id="errorMessage"></div>
 
-    <!-- Целевая аудитория -->
-    <div class="section">
-        <div class="section-title">👥 Целевая аудитория</div>
-        <div class="audience-selector" id="audienceSelector">
-            <div class="audience-option" data-type="all">
-                <div class="audience-option-title">📢 Всем пользователям</div>
-                <div class="audience-option-desc">Рассылка всем активным пользователям</div>
-            </div>
-            <div class="audience-option" data-type="loyalty">
-                <div class="audience-option-title">🎯 По уровню лояльности</div>
-                <div class="audience-option-desc">Выборочная рассылка по уровню</div>
-            </div>
-        </div>
+    <div class="header">
+        <h1>📢 Создание рассылки</h1>
+        <p>Создайте красивое сообщение с медиа и кнопками</p>
     </div>
 
     <!-- Текст сообщения -->
     <div class="section">
-        <div class="section-title">💬 Текст сообщения</div>
-        <div class="input-group">
-            <label class="input-label" for="messageText">Текст рассылки</label>
-            <textarea 
-                id="messageText" 
-                placeholder="Введите текст сообщения&#10;&#10;Поддерживается HTML:&#10;&lt;b&gt;жирный&lt;/b&gt;&#10;&lt;i&gt;курсив&lt;/i&gt;&#10;&lt;code&gt;код&lt;/code&gt;"
-                maxlength="4096"
-            ></textarea>
-            <div class="char-counter">
-                <span id="charCount">0</span>/4096 символов
-            </div>
+        <div class="section-title">
+            <span>📝</span>
+            <span>Текст сообщения</span>
+        </div>
+        <textarea 
+            id="messageText" 
+            placeholder="Введите текст рассылки...&#10;&#10;Поддерживается HTML форматирование:&#10;<b>жирный</b>, <i>курсив</i>, <code>код</code>"
+            maxlength="4096"
+        ></textarea>
+        <div class="char-counter">
+            <span id="charCount">0</span> / 4096
+        </div>
+        <div class="formatting-help">
+            💡 Форматирование: <code>&lt;b&gt;текст&lt;/b&gt;</code> — жирный, 
+            <code>&lt;i&gt;текст&lt;/i&gt;</code> — курсив, 
+            <code>&lt;code&gt;текст&lt;/code&gt;</code> — код
         </div>
     </div>
 
-    <!-- Изображение -->
+    <!-- Медиа -->
     <div class="section">
-        <div class="section-title">🖼️ Изображение (опционально)</div>
-        <div class="file-upload">
-            <input type="file" id="imageInput" accept="image/*">
-            <button class="upload-btn" onclick="document.getElementById('imageInput').click()">
-                <span>📷</span>
-                <span>Выбрать изображение</span>
-            </button>
-            <div class="file-preview" id="imagePreview">
-                <img id="previewImg" src="" alt="Preview">
-                <div class="file-info">
-                    <div class="file-name" id="imageName"></div>
-                    <div class="file-size" id="imageSize"></div>
-                </div>
-                <button class="remove-btn" onclick="removeImage()">✕</button>
-            </div>
-            <div class="hint">Рекомендуемое разрешение: 1200x630px, макс. 5 МБ</div>
+        <div class="section-title">
+            <span>🖼️</span>
+            <span>Медиа (опционально)</span>
         </div>
-    </div>
-
-    <!-- Файл -->
-    <div class="section">
-        <div class="section-title">📎 Файл (опционально)</div>
-        <div class="file-upload">
-            <input type="file" id="fileInput">
-            <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
-                <span>📄</span>
-                <span>Прикрепить файл</span>
+        <div class="media-upload">
+            <button class="upload-btn" onclick="document.getElementById('photoInput').click()">
+                📷 Загрузить фото
             </button>
-            <div class="file-preview" id="filePreview">
-                <div class="file-info">
-                    <div class="file-name" id="fileName"></div>
-                    <div class="file-size" id="fileSize"></div>
-                </div>
-                <button class="remove-btn" onclick="removeFile()">✕</button>
+            <button class="upload-btn secondary" onclick="document.getElementById('videoInput').click()">
+                🎥 Загрузить видео
+            </button>
+            <input type="file" id="photoInput" accept="image/*" onchange="handleFileUpload(this, 'photo')">
+            <input type="file" id="videoInput" accept="video/*" onchange="handleFileUpload(this, 'video')">
+        </div>
+        <div class="media-preview" id="mediaPreview">
+            <div class="preview-item" id="previewItem">
+                <button class="preview-remove" onclick="removeMedia()">×</button>
             </div>
-            <div class="hint">PDF, DOCX, XLSX и другие документы, макс. 20 МБ</div>
         </div>
     </div>
 
     <!-- Кнопки -->
     <div class="section">
-        <div class="section-title">🔘 Кнопки (опционально)</div>
-        <div class="buttons-container" id="buttonsContainer"></div>
-        <button class="add-button-btn" onclick="addButton()">+ Добавить кнопку</button>
-        <div class="hint">Максимум 10 кнопок</div>
+        <div class="section-title">
+            <span>🔘</span>
+            <span>Кнопки (опционально)</span>
+        </div>
+        <div class="buttons-section" id="buttonsSection">
+            <!-- Кнопки будут добавляться динамически -->
+        </div>
+        <button class="add-button-btn" onclick="addButton()">
+            ➕ Добавить кнопку
+        </button>
     </div>
 
     <!-- Предпросмотр -->
     <div class="section preview-section">
-        <div class="preview-title">👁️ Предпросмотр</div>
-        <img id="previewMessageImage" class="preview-image" style="display: none;">
-        <div class="preview-message" id="previewMessage">Введите текст сообщения...</div>
+        <div class="section-title">
+            <span>👁️</span>
+            <span>Предпросмотр</span>
+        </div>
+        <div class="preview-content" id="previewContent">
+            <em style="color: var(--tg-theme-hint-color, #999);">Введите текст для предпросмотра...</em>
+        </div>
         <div class="preview-buttons" id="previewButtons"></div>
     </div>
 
     <script>
+        // Инициализация Telegram WebApp
         const tg = window.Telegram.WebApp;
         tg.expand();
+        tg.MainButton.setText('Отправить рассылку');
+        tg.MainButton.show();
 
-        let selectedAudience = 'all';
-        let imageFile = null;
-        let attachedFile = null;
-        let buttons = [];
+        // Данные для отправки
+        let broadcastData = {
+            text: '',
+            media: null,
+            buttons: []
+        };
 
-        // Инициализация
-        document.addEventListener('DOMContentLoaded', () => {
-            // Выбрать первую аудиторию по умолчанию
-            document.querySelector('.audience-option[data-type="all"]').classList.add('selected');
-
-            // Обработчики событий
-            document.querySelectorAll('.audience-option').forEach(option => {
-                option.addEventListener('click', () => {
-                    document.querySelectorAll('.audience-option').forEach(o => o.classList.remove('selected'));
-                    option.classList.add('selected');
-                    selectedAudience = option.dataset.type;
-                });
-            });
-
-            document.getElementById('messageText').addEventListener('input', updatePreview);
-            document.getElementById('imageInput').addEventListener('change', handleImageSelect);
-            document.getElementById('fileInput').addEventListener('change', handleFileSelect);
-
-            // Настройка главной кнопки Telegram
-            tg.MainButton.setText('Создать рассылку');
-            tg.MainButton.onClick(() => sendBroadcast());
-            tg.MainButton.show();
+        // Счетчик символов
+        const messageText = document.getElementById('messageText');
+        const charCount = document.getElementById('charCount');
+        
+        messageText.addEventListener('input', function() {
+            charCount.textContent = this.value.length;
+            broadcastData.text = this.value;
+            updatePreview();
         });
 
-        function updatePreview() {
-            const text = document.getElementById('messageText').value;
-            document.getElementById('charCount').textContent = text.length;
-            
-            const preview = document.getElementById('previewMessage');
-            preview.innerHTML = text
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
-                .replace(/\*(.+?)\*/g, '<i>$1</i>')
-                .replace(/`(.+?)`/g, '<code>$1</code>')
-                || 'Введите текст сообщения...';
-        }
-
-        function handleImageSelect(e) {
-            const file = e.target.files[0];
+        // Обработка загрузки файлов
+        function handleFileUpload(input, type) {
+            const file = input.files[0];
             if (!file) return;
 
-            if (file.size > 5 * 1024 * 1024) {
-                tg.showAlert('Файл слишком большой! Максимум 5 МБ');
+            // Проверка размера
+            const maxSize = type === 'photo' ? 10 * 1024 * 1024 : 50 * 1024 * 1024; // 10MB для фото, 50MB для видео
+            if (file.size > maxSize) {
+                showError(`Файл слишком большой! Максимум ${maxSize / 1024 / 1024}MB`);
                 return;
             }
 
-            imageFile = file;
-            document.getElementById('imageName').textContent = file.name;
-            document.getElementById('imageSize').textContent = formatFileSize(file.size);
-            document.getElementById('imagePreview').classList.add('active');
-
             const reader = new FileReader();
-            reader.onload = (e) => {
-                document.getElementById('previewImg').src = e.target.result;
-                document.getElementById('previewMessageImage').src = e.target.result;
-                document.getElementById('previewMessageImage').style.display = 'block';
+            reader.onload = function(e) {
+                const previewItem = document.getElementById('previewItem');
+                const mediaPreview = document.getElementById('mediaPreview');
+                
+                // Очистить предыдущий контент
+                const existingMedia = previewItem.querySelector('img, video, .file-info');
+                if (existingMedia) existingMedia.remove();
+
+                if (type === 'photo') {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    previewItem.insertBefore(img, previewItem.firstChild);
+                } else if (type === 'video') {
+                    const video = document.createElement('video');
+                    video.src = e.target.result;
+                    video.controls = true;
+                    previewItem.insertBefore(video, previewItem.firstChild);
+                }
+
+                mediaPreview.classList.add('active');
+                
+                // Сохранить данные
+                broadcastData.media = {
+                    type: type,
+                    data: e.target.result,
+                    name: file.name,
+                    size: file.size
+                };
             };
             reader.readAsDataURL(file);
         }
 
-        function handleFileSelect(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            if (file.size > 20 * 1024 * 1024) {
-                tg.showAlert('Файл слишком большой! Максимум 20 МБ');
-                return;
-            }
-
-            attachedFile = file;
-            document.getElementById('fileName').textContent = file.name;
-            document.getElementById('fileSize').textContent = formatFileSize(file.size);
-            document.getElementById('filePreview').classList.add('active');
+        function removeMedia() {
+            document.getElementById('mediaPreview').classList.remove('active');
+            document.getElementById('photoInput').value = '';
+            document.getElementById('videoInput').value = '';
+            broadcastData.media = null;
         }
 
-        function removeImage() {
-            imageFile = null;
-            document.getElementById('imageInput').value = '';
-            document.getElementById('imagePreview').classList.remove('active');
-            document.getElementById('previewMessageImage').style.display = 'none';
-        }
-
-        function removeFile() {
-            attachedFile = null;
-            document.getElementById('fileInput').value = '';
-            document.getElementById('filePreview').classList.remove('active');
-        }
+        // Управление кнопками
+        let buttonCounter = 0;
 
         function addButton() {
-            if (buttons.length >= 10) {
-                tg.showAlert('Максимум 10 кнопок');
-                return;
-            }
-
-            const buttonId = Date.now();
-            buttons.push({ id: buttonId, text: '', url: '' });
-
-            const container = document.getElementById('buttonsContainer');
+            const buttonsSection = document.getElementById('buttonsSection');
+            const buttonId = ++buttonCounter;
+            
             const buttonItem = document.createElement('div');
             buttonItem.className = 'button-item';
             buttonItem.id = `button-${buttonId}`;
             buttonItem.innerHTML = `
-                <div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
-                    <input type="text" placeholder="Текст кнопки" onchange="updateButtonText(${buttonId}, this.value)">
-                    <input type="url" placeholder="https://..." onchange="updateButtonUrl(${buttonId}, this.value)">
-                </div>
-                <button class="remove-btn" onclick="removeButton(${buttonId})">✕</button>
+                <input type="text" placeholder="Текст кнопки" oninput="updateButton(${buttonId}, 'text', this.value)">
+                <input type="url" placeholder="https://example.com" oninput="updateButton(${buttonId}, 'url', this.value)">
+                <button class="btn-remove" onclick="removeButton(${buttonId})">×</button>
             `;
-            container.appendChild(buttonItem);
+            
+            buttonsSection.appendChild(buttonItem);
+            
+            // Добавить в данные
+            broadcastData.buttons.push({
+                id: buttonId,
+                text: '',
+                url: ''
+            });
         }
 
-        function updateButtonText(id, text) {
-            const button = buttons.find(b => b.id === id);
+        function updateButton(id, field, value) {
+            const button = broadcastData.buttons.find(b => b.id === id);
             if (button) {
-                button.text = text;
-                updateButtonsPreview();
-            }
-        }
-
-        function updateButtonUrl(id, url) {
-            const button = buttons.find(b => b.id === id);
-            if (button) {
-                button.url = url;
-                updateButtonsPreview();
+                button[field] = value;
+                updatePreview();
             }
         }
 
         function removeButton(id) {
-            buttons = buttons.filter(b => b.id !== id);
             document.getElementById(`button-${id}`).remove();
-            updateButtonsPreview();
+            broadcastData.buttons = broadcastData.buttons.filter(b => b.id !== id);
+            updatePreview();
         }
 
-        function updateButtonsPreview() {
-            const preview = document.getElementById('previewButtons');
-            preview.innerHTML = '';
-            buttons.forEach(btn => {
+        // Предпросмотр
+        function updatePreview() {
+            const previewContent = document.getElementById('previewContent');
+            const previewButtons = document.getElementById('previewButtons');
+            
+            // Обновить текст
+            if (broadcastData.text) {
+                previewContent.innerHTML = broadcastData.text;
+            } else {
+                previewContent.innerHTML = '<em style="color: var(--tg-theme-hint-color, #999);">Введите текст для предпросмотра...</em>';
+            }
+            
+            // Обновить кнопки
+            previewButtons.innerHTML = '';
+            broadcastData.buttons.forEach(btn => {
                 if (btn.text && btn.url) {
-                    const buttonEl = document.createElement('div');
-                    buttonEl.className = 'preview-button';
-                    buttonEl.textContent = btn.text;
-                    preview.appendChild(buttonEl);
+                    const btnElement = document.createElement('a');
+                    btnElement.className = 'preview-button';
+                    btnElement.textContent = btn.text;
+                    btnElement.href = btn.url;
+                    btnElement.target = '_blank';
+                    previewButtons.appendChild(btnElement);
                 }
             });
         }
 
-        function formatFileSize(bytes) {
-            if (bytes < 1024) return bytes + ' Б';
-            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' КБ';
-            return (bytes / (1024 * 1024)).toFixed(1) + ' МБ';
+        // Показ ошибки
+        function showError(message) {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = message;
+            errorMessage.classList.add('active');
+            setTimeout(() => {
+                errorMessage.classList.remove('active');
+            }, 3000);
         }
 
-        async function sendBroadcast() {
-            const text = document.getElementById('messageText').value.trim();
-
-            if (!text) {
-                tg.showAlert('Введите текст сообщения');
+        // Отправка данных
+        tg.MainButton.onClick(function() {
+            // Валидация
+            if (!broadcastData.text && !broadcastData.media) {
+                showError('❌ Добавьте текст или медиа');
                 return;
             }
 
-            tg.MainButton.showProgress();
-
-            // Формируем данные для отправки
-            const data = {
-                audience: selectedAudience,
-                text: text,
-                buttons: buttons.filter(b => b.text && b.url),
-                hasImage: !!imageFile,
-                hasFile: !!attachedFile
+            // Подготовка данных для отправки
+            const dataToSend = {
+                text: broadcastData.text,
+                buttons: broadcastData.buttons.filter(b => b.text && b.url)
             };
 
-            // Если есть файлы, отправляем через бота (бот запросит файлы отдельно)
-            tg.sendData(JSON.stringify(data));
-        }
+            // Если есть медиа, добавляем его
+            if (broadcastData.media) {
+                dataToSend.media_type = broadcastData.media.type;
+                dataToSend.media_data = broadcastData.media.data;
+            }
+
+            // Отправить данные боту
+            tg.sendData(JSON.stringify(dataToSend));
+        });
+
+        // Закрытие WebApp
+        tg.BackButton.show();
+        tg.BackButton.onClick(function() {
+            tg.close();
+        });
     </script>
 </body>
 </html>
-
